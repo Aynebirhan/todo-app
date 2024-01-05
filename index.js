@@ -18,6 +18,16 @@ mongoose.connect(connectionUrl)
 //set view engine
 app.set("view engine", "ejs");
 
+app.get("/", (req, res, next) => {
+  try{
+    res.render("index")
+
+  }catch(error){
+    res.status(500).send(error.message)
+  }
+
+})
+
 //server listen
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
