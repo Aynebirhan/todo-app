@@ -27,6 +27,15 @@ app.get("/", (req, res, next) => {
   }
 
 })
+app.get("/add-todo", (req, res, next) => {
+  try{
+    res.render("newTodo")
+
+  }catch(error){
+    res.status(500).json({message: error.message})
+  }
+
+})
 
 //server listen
 app.listen(PORT, () => {
