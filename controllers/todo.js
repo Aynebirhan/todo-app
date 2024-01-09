@@ -24,9 +24,11 @@ const todoHomeController =  async(req, res, next) => {
     }
   
   };
-  const updateTodoFormController = (req, res, next) => {
+  const updateTodoFormController = async(req, res, next) => {
     try{
-      res.render("updateTodo", {title: "Update"})
+      const { id } = req.query;
+      const todo = await Todo.findById(id);
+      res.render("updateTodo", {title: "Update", todo})
   
     }catch(error){
       res.status(500).json({message: error.message})
@@ -36,7 +38,9 @@ const todoHomeController =  async(req, res, next) => {
 
   const deleteTodoPageController =  (req, res, next) => {
     try{
-      res.render("deleteTodo", {title: "Delete"})
+
+      const { id } = req.query;
+      res.render("deleteTodo", {title: "Delete", id})
   
     }catch(error){
       res.status(500).json({message: error.message})
@@ -57,10 +61,49 @@ const todoHomeController =  async(req, res, next) => {
     }
   }; 
 
+  const updateTodoController = async(req, res, next) => {
+    try{
+      const { id } = req.params;
+      const {title, desc} = req.body;
+      const todo = await Todo.findById(id);
+
+      if(!todo){
+        res.status(400).json({mesaage: "Todo not found"})
+      }
+
+      todo.title = title;
+      todo.desc = desc;
+
+      await todo.save();
+
+      res.redirect("/")
+
+    }catch(error){
+      res.status(500).json({message: error.message})
+    }
+  };
+
+  const confirmDeleteController = async(req, res, next) => {
+    try{
+      const {id, confirm} = req.query;
+
+      if(confirm === "Yes"){
+        await Todo.findByIdAndDelete(id);
+      }
+
+      res.redirect("/");
+
+    }catch(error){
+      res.status(500).json({message: error.mesaage})
+    }
+  }
+
   module.exports = {
     todoHomeController,
      addTodoFormController,
      updateTodoFormController,
      deleteTodoPageController,
      addTodoController,
+     updateTodoController,
+     confirmDeleteController
     };

@@ -6,15 +6,15 @@
         </div>
         <br>
 
-        <form action="" method="">
+        <form action="/update-todo/<%= todo._id %>" method="post">
             <div class="update-todo">
                 <div class="form-group">
                     <label for="title" class="text-align">Title</label>
-                    <input type="text" name="title" value="" id="title" placeholder="type todo here">
+                    <input type="text" name="title" value="<%= todo.title %>" id="title" placeholder="type todo here">
                 </div>
                 <div class="form-group">
                     <label for="desc" class="text-align">Description</label>
-                    <input type="text" name="desc" value="" id="desc" placeholder="type description here">
+                    <input type="text" name="desc" value="<%= todo.desc %>" id="desc" placeholder="type description here">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn">save</button>
